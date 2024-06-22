@@ -55,13 +55,16 @@ def flatten_player_stats(player_stats):
 
 if __name__ == "__main__":
     if not input_path.exists():
-        logging.critical("No input folder found.")
+        logging.critical("No input folder found")
         sys.exit(0)
 
     output_path.mkdir(exist_ok=True)
 
     accounts = []
     for file_path in input_path.iterdir():
+        if file_path.suffix != '.json':
+            logging.critical(f"Unexpected file '{file_path}', only JSON files are allowed")
+            sys.exit(0)
         with open(file_path, encoding='utf-8') as f:
             data = json.load(f)
             if type(data) is list:
